@@ -1,0 +1,640 @@
+
+
+ <nav class="navbar navbar-expand-lg bg-white navbar-light shadow border-top border-5 border-primary sticky-top p-0">
+     <a href="home.component.html" class="navbar-brand bg-primary d-flex align-items-center px-4 px-lg-5">
+         <h2 class="mb-2 text-white">LogiTrack</h2>
+     </a>
+     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+         <span class="navbar-toggler-icon"></span>
+     </button>
+     <div class="collapse navbar-collapse" id="navbarCollapse">
+         <div class="navbar-nav ms-auto p-4 p-lg-0">
+             <a routerLink="/login" class="nav-item nav-link active">Login</a>
+             <a routerLink="/registration" class="nav-item nav-link active">Register</a>
+         </div>
+         <h4 class="m-0 pe-lg-5 d-none d-lg-block"><i class="fa fa-headphones text-primary me-3"></i>+012 345 6789</h4>
+     </div>
+ </nav>
+ <!-- Navbar End -->
+ 
+ <!-- Hero Start - SLIDER INTEGRATED HERE -->
+ <div class="container-fluid p-0 mb-5">
+     <div class="position-relative">
+         <div class="hero-slider-container">
+             <div class="slide" *ngFor="let slide of slides; let i = index" [class.active]="i === currentSlideIndex">
+                 <img class="img-fluid w-100" [src]="slide.image" [alt]="'Slider Image ' + (i + 1)">
+                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center hero-overlay">
+                     <div class="container">
+                         <div class="row justify-content-start">
+                             <div class="col-10 col-lg-8">
+                                 <h5 class="text-white text-uppercase mb-3 animated slideInDown">{{ slide.heading5 }}</h5>
+                                 <h1 class="display-3 text-white animated slideInDown mb-4" [innerHTML]="slide.heading1"></h1>
+                                 <p class="fs-5 fw-medium text-white mb-4 pb-2">{{ slide.paragraph }}</p>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+ 
+         <!-- Slider Controls -->
+         <button class="carousel-control-prev" type="button" (click)="prevSlide()">
+             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+             <span class="visually-hidden">Previous</span>
+         </button>
+         <button class="carousel-control-next" type="button" (click)="nextSlide()">
+             <span class="carousel-control-next-icon" aria-hidden="true"></span>
+             <span class="visually-hidden">Next</span>
+         </button>
+ 
+         <!-- Slider Indicators -->
+         <div class="carousel-indicators">
+             <button type="button" *ngFor="let slide of slides; let i = index" [class.active]="i === currentSlideIndex" (click)="goToSlide(i)"></button>
+         </div>
+     </div>
+ </div>
+ <!-- Hero End -->
+ 
+ <!-- Statistics Counter Start -->
+ <div class="statistics-section" #statsSection>
+     <div class="stats-background"></div>
+     <div class="container">
+         <div class="row g-4">
+             <div class="col-lg-3 col-md-6">
+                 <div class="stat-card">
+                     <div class="stat-icon">
+                         <i class="fas fa-users"></i>
+                     </div>
+                     <div class="stat-number">{{ customersCount }}</div>
+                     <div class="stat-suffix">+</div>
+                     <div class="stat-label">Customers Served</div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6">
+                 <div class="stat-card">
+                     <div class="stat-icon">
+                         <i class="fas fa-box"></i>
+                     </div>
+                     <div class="stat-number">{{ cargosCount }}</div>
+                     <div class="stat-suffix">+</div>
+                     <div class="stat-label">Cargos Delivered</div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6">
+                 <div class="stat-card">
+                     <div class="stat-icon">
+                         <i class="fas fa-globe"></i>
+                     </div>
+                     <div class="stat-number">{{ countriesCount }}</div>
+                     <div class="stat-suffix">+</div>
+                     <div class="stat-label">Countries Reached</div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6">
+                 <div class="stat-card">
+                     <div class="stat-icon">
+                         <i class="fas fa-check-circle"></i>
+                     </div>
+                     <div class="stat-number">{{ successRate }}</div>
+                     <div class="stat-suffix">%</div>
+                     <div class="stat-label">Success Rate</div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Statistics Counter End -->
+ 
+ <!-- About Start -->
+ <div class="container-fluid overflow-hidden py-5 px-lg-0 dark-section">
+     <div class="container about py-5 px-lg-0">
+         <div class="row g-5 mx-lg-0">
+             <div class="col-lg-6 ps-lg-0 wow fadeInLeft" data-wow-delay="0.1s" style="min-height: 400px;">
+                 <div class="position-relative h-100">
+                     <img class="position-absolute img-fluid w-100 h-100 glossy-image" src="assets/images/depot_hero_1.jpg" style="object-fit: cover;" alt="About Us">
+                 </div>
+             </div>
+             <div class="col-lg-6 about-text wow fadeInUp" data-wow-delay="0.3s">
+                 <h6 class="text-accent text-uppercase mb-3">About Us</h6>
+                 <h1 class="mb-5 text-primary">Quick Transport and Logistics Solutions</h1>
+                 <p class="mb-5 text-light-gray">CargoLogix empowers businesses with fast, reliable, and intelligent logistics tools. From real-time tracking to automated dispatching, our platform ensures every shipment moves efficiently, reducing delays and maximizing operational productivity.</p>
+                 <div class="row g-4 mb-5">
+                     <div class="col-sm-6 wow fadeIn" data-wow-delay="0.5s">
+                         <i class="fa fa-globe fa-3x text-accent mb-3"></i>
+                         <h5 class="text-white">Global Coverage</h5>
+                         <p class="m-0 text-light-gray">No matter where your cargo needs to go, our network ensures timely and secure delivery across borders with localized support</p>
+                     </div>
+                     <div class="col-sm-6 wow fadeIn" data-wow-delay="0.7s">
+                         <i class="fa fa-shipping-fast fa-3x text-accent mb-3"></i>
+                         <h5 class="text-white">On Time Delivery</h5>
+                         <p class="m-0 text-light-gray">Our system ensures your shipments arrive on schedule with predictive tracking and proactive delay management</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- About End -->
+ 
+ <!-- Service Start with Flip Cards -->
+ <div class="container-xxl py-5 dark-section">
+     <div class="container py-5">
+         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+             <h6 class="text-accent text-uppercase">Our Services</h6>
+             <h1 class="mb-5 text-primary">Explore Our Services</h1>
+         </div>
+         <div class="row g-4">
+             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
+                 <div class="flip-card">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front service-item p-4">
+                             <div class="overflow-hidden mb-4">
+                                 <img class="img-fluid" src="https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=600&h=400&fit=crop" alt="Air Freight">
+                             </div>
+                             <h4 class="mb-3">Air Freight</h4>
+                             <p>Fast, reliable, and global - your cargo in the air, anywhere</p>
+                             <a class="btn-slide mt-2" href=""><i class="fa fa-arrow-right"></i><span>Read More</span></a>
+                         </div>
+                         <div class="flip-card-back">
+                             <h4>Air Freight</h4>
+                             <p>Our air freight solutions provide the fastest delivery times for time-sensitive shipments.</p>
+                             <ul>
+                                 <li><i class="fas fa-check-circle"></i> 24-48 hour delivery</li>
+                                 <li><i class="fas fa-check-circle"></i> Real-time tracking</li>
+                                 <li><i class="fas fa-check-circle"></i> Temperature controlled</li>
+                                 <li><i class="fas fa-check-circle"></i> Global network</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
+                 <div class="flip-card">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front service-item p-4">
+                             <div class="overflow-hidden mb-4">
+                                 <img class="img-fluid" src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=600&h=400&fit=crop" alt="Ocean Freight">
+                             </div>
+                             <h4 class="mb-3">Ocean Freight</h4>
+                             <p>Connecting continents with cost-effective sea solutions</p>
+                             <a class="btn-slide mt-2" href=""><i class="fa fa-arrow-right"></i><span>Read More</span></a>
+                         </div>
+                         <div class="flip-card-back">
+                             <h4>Ocean Freight</h4>
+                             <p>Cost-effective shipping solutions for large cargo volumes across international waters.</p>
+                             <ul>
+                                 <li><i class="fas fa-check-circle"></i> FCL & LCL options</li>
+                                 <li><i class="fas fa-check-circle"></i> Port-to-port service</li>
+                                 <li><i class="fas fa-check-circle"></i> Customs handling</li>
+                                 <li><i class="fas fa-check-circle"></i> Competitive rates</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.7s">
+                 <div class="flip-card">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front service-item p-4">
+                             <div class="overflow-hidden mb-4">
+                                 <img class="img-fluid" src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&h=400&fit=crop" alt="Road Freight">
+                             </div>
+                             <h4 class="mb-3">Road Freight</h4>
+                             <p>On time, every time - seamless deliveries by road</p>
+                             <a class="btn-slide mt-2" href=""><i class="fa fa-arrow-right"></i><span>Read More</span></a>
+                         </div>
+                         <div class="flip-card-back">
+                             <h4>Road Freight</h4>
+                             <p>Flexible road transport services for domestic and cross-border deliveries.</p>
+                             <ul>
+                                 <li><i class="fas fa-check-circle"></i> Door-to-door delivery</li>
+                                 <li><i class="fas fa-check-circle"></i> FTL & LTL services</li>
+                                 <li><i class="fas fa-check-circle"></i> GPS tracking</li>
+                                 <li><i class="fas fa-check-circle"></i> Flexible scheduling</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
+                 <div class="flip-card">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front service-item p-4">
+                             <div class="overflow-hidden mb-4">
+                                 <img class="img-fluid" src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&h=400&fit=crop" alt="Train Freight">
+                             </div>
+                             <h4 class="mb-3">Train Freight</h4>
+                             <p>Eco-friendly, efficient, and dependable rail logistics</p>
+                             <a class="btn-slide mt-2" href=""><i class="fa fa-arrow-right"></i><span>Read More</span></a>
+                         </div>
+                         <div class="flip-card-back">
+                             <h4>Train Freight</h4>
+                             <p>Sustainable rail transport for bulk cargo and long-distance shipments.</p>
+                             <ul>
+                                 <li><i class="fas fa-check-circle"></i> Eco-friendly option</li>
+                                 <li><i class="fas fa-check-circle"></i> Bulk cargo handling</li>
+                                 <li><i class="fas fa-check-circle"></i> Cost-effective</li>
+                                 <li><i class="fas fa-check-circle"></i> Reliable schedules</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
+                 <div class="flip-card">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front service-item p-4">
+                             <div class="overflow-hidden mb-4">
+                                 <img class="img-fluid" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop" alt="Customs Clearance">
+                             </div>
+                             <h4 class="mb-3">Customs Clearance</h4>
+                             <p>Paperwork made simple - smooth passage across borders</p>
+                             <a class="btn-slide mt-2" href=""><i class="fa fa-arrow-right"></i><span>Read More</span></a>
+                         </div>
+                         <div class="flip-card-back">
+                             <h4>Customs Clearance</h4>
+                             <p>Expert customs brokerage services to ensure smooth international shipping.</p>
+                             <ul>
+                                 <li><i class="fas fa-check-circle"></i> Documentation support</li>
+                                 <li><i class="fas fa-check-circle"></i> Tariff classification</li>
+                                 <li><i class="fas fa-check-circle"></i> Compliance expertise</li>
+                                 <li><i class="fas fa-check-circle"></i> Fast processing</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.7s">
+                 <div class="flip-card">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front service-item p-4">
+                             <div class="overflow-hidden mb-4">
+                                 <img class="img-fluid" src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&h=400&fit=crop" alt="Warehouse Solutions">
+                             </div>
+                             <h4 class="mb-3">Warehouse Solutions</h4>
+                             <p>Secure, smart, and scalable storage for your goods</p>
+                             <a class="btn-slide mt-2" href=""><i class="fa fa-arrow-right"></i><span>Read More</span></a>
+                         </div>
+                         <div class="flip-card-back">
+                             <h4>Warehouse Solutions</h4>
+                             <p>Modern warehousing facilities with advanced inventory management systems.</p>
+                             <ul>
+                                 <li><i class="fas fa-check-circle"></i> Climate controlled</li>
+                                 <li><i class="fas fa-check-circle"></i> 24/7 security</li>
+                                 <li><i class="fas fa-check-circle"></i> Inventory management</li>
+                                 <li><i class="fas fa-check-circle"></i> Order fulfillment</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Service End -->
+ 
+ <!-- Feature Start -->
+ <div class="container-fluid overflow-hidden py-5 px-lg-0 dark-section">
+     <div class="container feature py-5 px-lg-0">
+         <div class="row g-5 mx-lg-0">
+             <div class="col-lg-6 feature-text wow fadeInUp" data-wow-delay="0.1s">
+                 <h6 class="text-accent text-uppercase mb-3">Our Features</h6>
+                 <h1 class="mb-5 text-primary">We Are Trusted Logistics Company Since 1990</h1>
+                 <div class="d-flex mb-5 wow fadeInUp" data-wow-delay="0.3s">
+                     <i class="fa fa-globe text-accent fa-3x flex-shrink-0"></i>
+                     <div class="ms-4">
+                         <h5 class="text-white">Worldwide Service</h5>
+                         <p class="mb-0 text-light-gray">From local deliveries to international freight, our expansive network ensures your cargo reaches its destination safely and on time anywhere in the world.</p>
+                     </div>
+                 </div>
+                 <div class="d-flex mb-5 wow fadeIn" data-wow-delay="0.5s">
+                     <i class="fa fa-shipping-fast text-accent fa-3x flex-shrink-0"></i>
+                     <div class="ms-4">
+                         <h5 class="text-white">On Time Delivery</h5>
+                         <p class="mb-0 text-light-gray">We understand the value of time in logistics. Our advanced tracking systems and optimized routes guarantee punctual deliveries, helping you meet deadlines without compromise</p>
+                     </div>
+                 </div>
+                 <div class="d-flex mb-0 wow fadeInUp" data-wow-delay="0.7s">
+                     <i class="fa fa-headphones text-accent fa-3x flex-shrink-0"></i>
+                     <div class="ms-4">
+                         <h5 class="text-white">24/7 Telephone Support</h5>
+                         <p class="mb-0 text-light-gray">Our dedicated support team is available 24/7 to assist you with queries, updates, and logistics coordination ensuring peace of mind at every step of your shipment journey</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-6 pe-lg-0 wow fadeInRight" data-wow-delay="0.1s" style="min-height: 400px;">
+                 <div class="position-relative h-100">
+                     <img class="position-absolute img-fluid w-100 h-100 glossy-image" src="https://images.unsplash.com/photo-1586528116493-a029325540fa?w=800&h=600&fit=crop" style="object-fit: cover;" alt="Features">
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Feature End -->
+ 
+ <!-- Team Start with Flip Cards -->
+ <div class="container-xxl py-5 dark-section">
+     <div class="container py-5">
+         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+             <h6 class="text-accent text-uppercase">Our Team</h6>
+             <h1 class="mb-5 text-primary">Expert Team Members</h1>
+         </div>
+         <div class="row g-4">
+             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                 <div class="flip-card team-flip">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front team-item p-4">
+                             <div class="team-image-wrapper">
+                                 <img src="assets/images/gnane.jpg" alt="Gnaneswar Reddy">
+                             </div>
+                             <h5 class="mb-0">Gnaneswar Reddy</h5>
+                             <p>Team Leader</p>
+                             <div class="btn-slide mt-1">
+                                 <i class="fa fa-share"></i>
+                                 <span>
+                                     <a href=""><i class="fab fa-facebook-f"></i></a>
+                                     <a href=""><i class="fab fa-twitter"></i></a>
+                                     <a href=""><i class="fab fa-instagram"></i></a>
+                                 </span>
+                             </div>
+                         </div>
+                         <div class="flip-card-back team-item-back">
+                             <h5>Gnaneswar Reddy</h5>
+                             <p class="team-role">Team Leader</p>
+                             <p class="team-bio"></p>
+                             <div class="team-social">
+                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                 <a href=""><i class="fas fa-envelope"></i></a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                 <div class="flip-card team-flip">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front team-item p-4">
+                             <div class="team-image-wrapper">
+                                 <img src="assets/images/Viswajith.jpg" alt="Swetha Priya">
+                             </div>
+                             <h5 class="mb-0">Viswajith</h5>
+                             <p>Team Member</p>
+                             <div class="btn-slide mt-1">
+                                 <i class="fa fa-share"></i>
+                                 <span>
+                                     <a href=""><i class="fab fa-facebook-f"></i></a>
+                                     <a href=""><i class="fab fa-twitter"></i></a>
+                                     <a href=""><i class="fab fa-instagram"></i></a>
+                                 </span>
+                             </div>
+                         </div>
+                         <div class="flip-card-back team-item-back">
+                             <h5>Viswajith</h5>
+                             <p class="team-role">Team Member</p>
+                             <p class="team-bio"></p>
+                             <div class="team-social">
+                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                 <a href=""><i class="fas fa-envelope"></i></a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                 <div class="flip-card team-flip">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front team-item p-4">
+                             <div class="team-image-wrapper">
+                                 <img src="assets/images/Manas.jpg" alt="Manas Singh">
+                             </div>
+                             <h5 class="mb-0">Manas Singh</h5>
+                             <p>Team Member</p>
+                             <div class="btn-slide mt-1">
+                                 <i class="fa fa-share"></i>
+                                 <span>
+                                     <a href=""><i class="fab fa-facebook-f"></i></a>
+                                     <a href=""><i class="fab fa-twitter"></i></a>
+                                     <a href=""><i class="fab fa-instagram"></i></a>
+                                 </span>
+                             </div>
+                         </div>
+                         <div class="flip-card-back team-item-back">
+                             <h5>Manas Singh</h5>
+                             <p class="team-role">Team Member</p>
+                             <p class="team-bio"></p>
+                             <div class="team-social">
+                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                 <a href=""><i class="fas fa-envelope"></i></a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.9s">
+                 <div class="flip-card team-flip">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front team-item p-4">
+                             <div class="team-image-wrapper">
+                                 <img src="assets/images/swetha.jpg" alt="Swetha Priya">
+                             </div>
+                             <h5 class="mb-0">Swetha Priya</h5>
+                             <p>Team Member</p>
+                             <div class="btn-slide mt-1">
+                                 <i class="fa fa-share"></i>
+                             </div>
+                         </div>
+                         <div class="flip-card-back team-item-back">
+                             <h5>Swetha Priya</h5>
+                             <p class="team-role">Team Member</p>
+                             <p class="team-bio"></p>
+                             <div class="team-social">
+                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                 <a href=""><i class="fas fa-envelope"></i></a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.9s">
+                 <div class="flip-card team-flip">
+                     <div class="flip-card-inner">
+                         <div class="flip-card-front team-item p-4">
+                             <div class="team-image-wrapper">
+                                 <img src="assets/images/Praduman.jpg" alt="Praduman Kumar">
+                             </div>
+                             <h5 class="mb-0">Praduman Kumar</h5>
+                             <p>Team Member</p>
+                             <div class="btn-slide mt-1">
+                                 <i class="fa fa-share"></i>
+                             </div>
+                         </div>
+                         <div class="flip-card-back team-item-back">
+                             <h5>Praduman Kumar</h5>
+                             <p class="team-role">Team Member</p>
+                             <p class="team-bio"></p>
+                             <div class="team-social">
+                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                 <a href=""><i class="fas fa-envelope"></i></a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Team End -->
+ 
+ <!-- Customer Feedback Start -->
+ <div class="container-xxl py-5 dark-section">
+     <div class="container py-5">
+         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+             <h6 class="text-accent text-uppercase">Testimonials</h6>
+             <h1 class="mb-5 text-primary">What Our Clients Say</h1>
+         </div>
+         <div class="row g-4">
+             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                 <div class="testimonial-card">
+                     <div class="quote-icon">
+                         <i class="fas fa-quote-left"></i>
+                     </div>
+                     <div class="stars mb-3">
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                     </div>
+                     <p class="testimonial-text">"LogiTrack has transformed our supply chain operations. Their real-time tracking and reliable delivery service has been exceptional. Highly recommended!"</p>
+                     <div class="customer-info">
+                         <img src="https://i.pravatar.cc/80?img=60" alt="John Anderson">
+                         <div>
+                             <h5>John Anderson</h5>
+                             <p>Global Trade Corp</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                 <div class="testimonial-card">
+                     <div class="quote-icon">
+                         <i class="fas fa-quote-left"></i>
+                     </div>
+                     <div class="stars mb-3">
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                     </div>
+                     <p class="testimonial-text">"Outstanding service and professional team. They handle our international shipments with care and efficiency. The 24/7 support is invaluable."</p>
+                     <div class="customer-info">
+                         <img src="https://i.pravatar.cc/80?img=47" alt="Maria Garcia">
+                         <div>
+                             <h5>Maria Garcia</h5>
+                             <p>TechFlow Industries</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                 <div class="testimonial-card">
+                     <div class="quote-icon">
+                         <i class="fas fa-quote-left"></i>
+                     </div>
+                     <div class="stars mb-3">
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                         <i class="fas fa-star"></i>
+                     </div>
+                     <p class="testimonial-text">"Best logistics partner we've had. Their technology platform is intuitive, and the on-time delivery rate is impressive. True professionals!"</p>
+                     <div class="customer-info">
+                         <img src="https://i.pravatar.cc/80?img=14" alt="Robert Chen">
+                         <div>
+                             <h5>Robert Chen</h5>
+                             <p>Express Logistics Ltd</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Customer Feedback End -->
+ 
+ <!-- Footer Start -->
+ <footer class="footer-section">
+     <div class="container py-5">
+         <div class="row g-5">
+             <div class="col-lg-3 col-md-6">
+                 <h3 class="text-white mb-4">LogiTrack</h3>
+                 <p class="text-light-gray mb-4">Leading the way in logistics excellence with cutting-edge solutions for global supply chains.</p>
+                 <div class="footer-social">
+                     <a href=""><i class="fab fa-facebook-f"></i></a>
+                     <a href=""><i class="fab fa-twitter"></i></a>
+                     <a href=""><i class="fab fa-linkedin-in"></i></a>
+                     <a href=""><i class="fab fa-instagram"></i></a>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6">
+                 <h4 class="text-white mb-4">Quick Links</h4>
+                 <ul class="footer-links">
+                     <li><a href="">About Us</a></li>
+                     <li><a href="">Services</a></li>
+                     <li><a href="">Contact</a></li>
+                     <li><a href="">Careers</a></li>
+                     <li><a href="">Track Shipment</a></li>
+                 </ul>
+             </div>
+             <div class="col-lg-3 col-md-6">
+                 <h4 class="text-white mb-4">Our Services</h4>
+                 <ul class="footer-links">
+                     <li><a href="">Air Freight</a></li>
+                     <li><a href="">Ocean Freight</a></li>
+                     <li><a href="">Road Freight</a></li>
+                     <li><a href="">Train Freight</a></li>
+                     <li><a href="">Warehousing</a></li>
+                 </ul>
+             </div>
+             <div class="col-lg-3 col-md-6">
+                 <h4 class="text-white mb-4">Contact Info</h4>
+                 <ul class="footer-contact">
+                     <li>
+                         <i class="fas fa-map-marker-alt"></i>
+                         <span>123 Logistics Ave, Trade City, TC 12345</span>
+                     </li>
+                     <li>
+                         <i class="fas fa-phone"></i>
+                         <span>+012 345 6789</span>
+                     </li>
+                     <li>
+                         <i class="fas fa-envelope"></i>
+                         <span>info@logitrack.com</span>
+                     </li>
+                     <li>
+                         <i class="fas fa-clock"></i>
+                         <span>24/7 Customer Support</span>
+                     </li>
+                 </ul>
+             </div>
+         </div>
+         <div class="footer-bottom">
+             <div class="row">
+                 <div class="col-md-6 text-center text-md-start">
+                     <p>&copy; 2024 LogiTrack. All rights reserved.</p>
+                 </div>
+                 <div class="col-md-6 text-center text-md-end">
+                     <a href="">Privacy Policy</a>
+                     <a href="">Terms of Service</a>
+                     <a href="">Cookie Policy</a>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </footer>
+ <!-- Footer End -->
+ 
+ <!-- Back to Top -->
+ <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"><i class="bi bi-arrow-up"></i></a>

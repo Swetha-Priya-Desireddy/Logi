@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
     {
       this.itemForm = this.formBuilder.group({
         //compelete this 
+      username:['',Validators.required],
+      password:['',Validators.required]
        
     });
   }
@@ -27,11 +29,27 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   onLogin() {
-  //compelete this 
-}
-
-registration()
-  {
-     //compelete this 
-  }
+      if (this.itemForm.valid) {
+        const loginDetails = this.itemForm.value;
+        this.httpService.Login(loginDetails).subscribe(
+          (response: any) => {
+            this.authService.SetId(response.id);
+            this.authService.saveToken(response.token);
+            this.authService.SetRole(response.role);
+            this.router.navigate(['/dashboard']); 
+          },
+          (error) => {
+            this.showError = true;
+            this.errorMessage = 'Invalid username or password';
+          }
+        );
+      } else {
+        this.showError = true;
+        this.errorMessage = 'Please fill in all required fields';
+      }
+    }
+  
+    registration() {
+      this.router.navigateByUrl('registration');
+    }
 }

@@ -1,38 +1,97 @@
 package com.wecp.logisticsmanagementandtrackingsystem.config;
 
-import com.wecp.logisticsmanagementandtrackingsystem.jwt.JwtRequestFilter;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import com.wecp.logisticsmanagementandtrackingsystem.jwt.JwtRequestFilter;
+import com.wecp.logisticsmanagementandtrackingsystem.service.UserService;
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecurityConfig {
+    private final JwtRequestFilter jwtRequestFilter;
+    private final PasswordEncoder passwordEncoder;
 
-
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-   
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // complete these method to configure the security of the application
-
-        // /api/register and /api/login should be permitted to all
-        // /api/business/cargo should be permitted to users with BUSINESS role
-        // /api/business/assign-cargo should be permitted to users with BUSINESS role
-        // /api/driver/cargo should be permitted to users with DRIVER role
-        // /api/driver/update-cargo-status should be permitted to users with DRIVER role
-        // /api/customer/cargo-status should be permitted to users with CUSTOMER role
-        // all other requests should be authenticated
-
-        // configure jwtRequestFilter to be executed before UsernamePasswordAuthenticationFilter
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService,
+            JwtRequestFilter jwtRequestFilter,
+            PasswordEncoder passwordEncoder) {
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    // Configures the UserDetailsService bean.
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserService();
+    }
+
+    // Configures the security filter chain for custom role-based access for URIs.
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(new CustomRequestMatcher("/api/register", "/api/login")).permitAll())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(
+                                new CustomRequestMatcher("/api/business/*", "/api/customer/*", "/api/driver/*"))
+                        .authenticated())
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    // Configures the authentication provider for setting user details and hashing passwords.
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
+    }
+
+    // Configures the AuthenticationManager.
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    // Custom request matcher for matching URIs.
+    private static class CustomRequestMatcher implements RequestMatcher {
+        private String[] patterns;
+
+        public CustomRequestMatcher(String... patterns) {
+            this.patterns = patterns;
+        }
+
+        @Override
+        public boolean matches(HttpServletRequest request) {
+            String requestURI = request.getRequestURI();
+            for (String pattern : patterns) {
+                if (requestURI.matches(pattern)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }
+

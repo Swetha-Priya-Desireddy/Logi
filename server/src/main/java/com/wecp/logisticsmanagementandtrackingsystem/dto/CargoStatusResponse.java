@@ -27,3 +27,5 @@ public class CargoStatusResponse {
         this.status = status;
     }
 }
+
+

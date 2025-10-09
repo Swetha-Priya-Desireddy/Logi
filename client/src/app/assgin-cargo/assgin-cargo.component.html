@@ -1,1 +1,177 @@
-//todo: Complete missing code..
+
+<div class="page-header">
+  <h2 class="page-title">Manage Cargo</h2>
+  <button class="btn btn-danger-custom " (click)="logout()">Logout</button>
+</div>
+ 
+ 
+<div class="cargo-grid">
+  <div class="cargo-card" *ngFor="let cargo of cargoToShow">
+ 
+    <div class="shine"></div>
+ 
+    <div class="card-content">
+     
+      <div class="card-header">
+        <h5 class="awb-number">A.W.B #{{ cargo.id }}</h5>
+        <span class="status-badge"
+              [ngClass]="{
+                'status-pending': cargo.status === 'Order Pending',
+                'status-assigned': cargo.status === 'Order Assigned',
+                'status-transit': cargo.status === 'Order In-transit',
+                'status-delivered': cargo.status === 'Order Delivered'
+              }"
+              (click)="openDeliveryStatus(cargo)"
+              data-bs-toggle="modal"
+              data-bs-target="#deliveryStatusModal">
+          {{ cargo.status }}
+        </span>
+      </div>
+ 
+     
+      <ul class="cargo-details">
+        <li class="detail-item">
+          <span class="material-icons">inventory_2</span>
+          <span class="label">Content:</span>
+          <span class="value">{{ cargo.content }}</span>
+        </li>
+        <li class="detail-item">
+          <span class="material-icons">straighten</span>
+          <span class="label">Size:</span>
+          <span class="value">{{ cargo.size }}</span>
+        </li>
+        <li class="detail-item">
+          <span class="material-icons">location_on</span>
+          <span class="label">Address:</span>
+          <span class="value">{{ cargo.address ? cargo.address : '—' }}</span>
+        </li>
+      </ul>
+      
+     
+      <button class="btn btn-primary btn-update"
+              data-bs-toggle="modal"
+              data-bs-target="#driverModal"
+              (click)="addStatus(cargo)"
+              [disabled]="cargo.status === 'Order Delivered'">
+        Update Status
+      </button>
+    </div>
+  </div>
+</div>
+ 
+
+<div class="glass-card mt-4">
+  <div class="card-body-custom d-flex justify-content-center gap-3">
+    <button class="btn btn-animated btn-secondary-custom"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)">
+      ⬅ Prev
+    </button>
+ 
+    <span class="page-indicator">Page {{ currentPage }}</span>
+ 
+    <button class="btn btn-animated btn-secondary-custom"
+            [disabled]="(currentPage * itemsPerPage) >= cargList.length"
+            (click)="goToPage(currentPage + 1)">
+      Next ➡
+    </button>
+  </div>
+</div>
+ 
+<div class="modal fade delivery-modal" id="deliveryStatusModal" tabindex="-1" aria-labelledby="deliveryStatusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-surface">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deliveryStatusModalLabel">Delivery Status - AWB #{{ statusModel.cargoId }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+ 
+      <div class="modal-body">
+       
+        <div class="delivery-timeline">
+         
+          <div class="timeline-stage" [ngClass]="{'stage-completed': statusModel.status !== 'Order Pending', 'stage-active': statusModel.status === 'Order Pending'}">
+            <div class="stage-icon">
+              <span class="material-icons">{{ statusModel.status === 'Order Pending' ? 'pending' : 'check' }}</span>
+            </div>
+            <div class="stage-info">
+              <h6 class="stage-name">Order Pending</h6>
+              <p class="stage-description">{{ statusModel.status === 'Order Pending' ? 'Current Status' : 'Completed' }}</p>
+            </div>
+          </div>
+ 
+       
+          <div class="timeline-stage" [ngClass]="{'stage-completed': statusModel.status === 'Order In-transit' || statusModel.status === 'Order Delivered', 'stage-active': statusModel.status === 'Order Assigned'}">
+            <div class="stage-icon">
+              <span class="material-icons">{{ statusModel.status === 'Order In-transit' || statusModel.status === 'Order Delivered' ? 'check' : 'assignment' }}</span>
+            </div>
+            <div class="stage-info">
+              <h6 class="stage-name">Order Assigned</h6>
+              <p class="stage-description">{{ statusModel.status === 'Order Assigned' ? 'Current Status' : (statusModel.status === 'Order In-transit' || statusModel.status === 'Order Delivered') ? 'Completed' : 'Pending' }}</p>
+            </div>
+          </div>
+ 
+         
+          <div class="timeline-stage" [ngClass]="{'stage-completed': statusModel.status === 'Order Delivered', 'stage-active': statusModel.status === 'Order In-transit'}">
+            <div class="stage-icon">
+              <span class="material-icons">{{ statusModel.status === 'Order Delivered' ? 'check' : 'local_shipping' }}</span>
+            </div>
+            <div class="stage-info">
+              <h6 class="stage-name">Order In-transit</h6>
+              <p class="stage-description">{{ statusModel.status === 'Order In-transit' ? 'Current Status' : statusModel.status === 'Order Delivered' ? 'Completed' : 'Pending' }}</p>
+            </div>
+          </div>
+ 
+         
+          <div class="timeline-stage" [ngClass]="{'stage-completed': statusModel.status === 'Order Delivered', 'stage-active': statusModel.status === 'Order Delivered'}">
+            <div class="stage-icon">
+              <span class="material-icons">check_circle</span>
+            </div>
+            <div class="stage-info">
+              <h6 class="stage-name">Order Delivered</h6>
+              <p class="stage-description">{{ statusModel.status === 'Order Delivered' ? 'Completed' : 'Pending' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+<div class="modal fade update-modal" id="driverModal" tabindex="-1" aria-labelledby="driverModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-surface">
+      <div class="modal-header">
+        <h5 class="modal-title" id="driverModalLabel">Update Status</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+ 
+      <div class="modal-body">
+        <label class="form-label">New Status</label>
+        <select [(ngModel)]="statusModel.newStatus" class="form-control" name="Choose Status">
+          <option value="">Choose Status</option>
+          <option *ngIf="statusModel.status !== 'Order In-transit'" value="Order In-transit">Order In-transit</option>
+          <option value="Order Delivered">Order Delivered</option>
+        </select>
+ 
+        <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
+        <div *ngIf="showError" class="alert alert-error">{{ errorMessage }}</div>
+      </div>
+ 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button"
+                class="btn btn-primary-custom"
+                (click)="assignDriver()"
+                [disabled]="!statusModel?.newStatus">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

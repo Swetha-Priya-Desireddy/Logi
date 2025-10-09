@@ -1,3 +1,54 @@
-a{
-    cursor: pointer;
+
+.bg-image {
+   background: url('/home/ubuntu/root/client/src/assets/images/logi.jpg') no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 30px;
+  width: 350px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: #07060b;
+}
+
+.form-control {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #0b0a10;
+}
+
+.form-control::placeholder {
+  color: #100e0e;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.3);
+  outline: none;
+  box-shadow: 0 0 10px #0c0c0c;
+}
+
+.btn-primary {
+  background: #061278;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #0097a7;
+  box-shadow: 0 0 15px #00bcd4;
+}
+
+a {
+  color: #eff5f6;
+  
+}
+
+a {
+  text-decoration: underline;
 }

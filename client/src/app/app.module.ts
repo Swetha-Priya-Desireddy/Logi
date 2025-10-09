@@ -15,6 +15,7 @@ import { DashbaordComponent } from './dashbaord/dashbaord.component';
 import { AddcargoComponent } from './addcargo/addcargo.component';
 import { AssginCargoComponent } from './assgin-cargo/assgin-cargo.component';
 import { ViewcargostatusComponent } from './viewcargostatus/viewcargostatus.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ViewcargostatusComponent } from './viewcargostatus/viewcargostatus.comp
       DashbaordComponent,
       AddcargoComponent,
       AssginCargoComponent,
-      ViewcargostatusComponent
+      ViewcargostatusComponent,
+      HomeComponent
   ],
   imports: [
     BrowserModule,

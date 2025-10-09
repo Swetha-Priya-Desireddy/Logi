@@ -1,3 +1,4 @@
+
 package com.wecp.logisticsmanagementandtrackingsystem.dto;
 
 
@@ -31,3 +32,6 @@ public class LoginRequest {
         this.password = password;
     }
 }
+
+
+

@@ -1,1 +1,253 @@
-//doto: Complete missing code..
+<!-- Hi 1 -->
+<div class="particles">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+ 
+<div class="container-main">
+ 
+  <div class="page-header">
+    <h2>🚚 Manage Orders</h2>
+    <button class="btn btn-animated btn-danger-custom" (click)="logout()">Logout</button>
+  </div>
+ 
+ 
+  <div class="glass-card mb-4">
+    <div class="card-header-custom">✨ Add New Cargo</div>
+    <div class="card-body-custom">
+      <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+        <div class="row g-4">
+          <div class="col-md-3">
+            <label for="content" class="form-label">Content</label>
+            <input type="text" id="content" formControlName="content" class="form-control" placeholder="Content">
+          </div>
+          <div class="col-md-3">
+            <label for="size" class="form-label">Size</label>
+            <input type="text" id="size" formControlName="size" class="form-control" placeholder="Size">
+          </div>
+          <div class="col-md-3">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" formControlName="status" class="form-control">
+              <option value="">Choose Status</option>
+              <option value="Order Pending">Pending</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" id="address" formControlName="address" class="form-control" placeholder="Delivery address">
+          </div>
+          <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-animated btn-primary-custom w-100" type="submit" [disabled]="itemForm.invalid">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+ 
+  <div class="glass-card mb-4">
+    <div class="card-body-custom">
+      <div class="row g-4 align-items-end">
+        <div class="col-sm-6 col-lg-4">
+          <label class="form-label">🔍 Search A.W.B No.</label>
+          <input type="text" class="form-control" [(ngModel)]="cargoId" placeholder="e.g., 123456789">
+        </div>
+        <div class="col-sm-6 col-lg-4 d-flex gap-3">
+          <button type="button" class="btn btn-animated btn-primary-custom" (click)="search()">Search</button>
+          <button type="button" class="btn btn-animated btn-success-custom" (click)="getCargo()">View All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="order-grid">
+    <div class="order-card" *ngFor="let order of cargoToShow; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
+      <div class="shine"></div>
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <h5 class="card-title-gradient">A.W.B #{{ order.id }}</h5>
+        <span class="status-badge"
+              [ngClass]="{
+                'status-pending': order.status === 'Order Pending',
+                'status-assigned': order.status === 'Order Assigned',
+                'status-transit': order.status === 'Order In-transit',
+                'status-delivered': order.status === 'Order Delivered'
+              }">
+          {{ order.status }}
+        </span>
+      </div>
+      <p><strong>Content:</strong> {{ order.content }}</p>
+      <p><strong>Size:</strong> {{ order.size }}</p>
+      <p><strong>Address:</strong>{{order.address}}</p>
+     
+        <button *ngIf="order.status === 'Order Pending'" class="btn btn-sm-custom btn-animated btn-primary-custom"
+                data-bs-toggle="modal" data-bs-target="#driverModal"
+                (click)="addDriver(order)">Assign</button>
+        <button *ngIf="order.status === 'Order Assigned'" class="btn btn-sm-custom btn-info-custom" disabled>Assigned</button>
+        <button *ngIf="order.status === 'Order In-transit'" class="btn btn-sm-custom btn-warning-custom" disabled>In-transit</button>
+        <button *ngIf="order.status === 'Order Delivered'" class="btn btn-sm-custom btn-delivered-custom" disabled>Delivered</button>
+        <button
+          class="btn btn-sm-custom btn-animated btn-danger-custom"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteModal"
+          (click)="setOrderToDelete(order)"
+          [disabled]="order.status === 'Order In-transit' || order.status === 'Order Delivered'">
+          Delete
+        </button>
+        <button
+          class="btn btn-sm-custom btn-animated btn-edit-custom"
+          data-bs-toggle="modal"
+          data-bs-target="#editModal"
+          (click)="setOrderToEdit(order)"
+          [disabled]="order.status === 'Order In-transit' || order.status === 'Order Delivered'">
+          ✏️ Edit
+        </button>
+        
+      </div>
+    </div>
+  </div>
+
+ 
+
+<div class="glass-card mt-4">
+  <div class="card-body-custom d-flex justify-content-center gap-3">
+    <button class="btn btn-animated btn-secondary-custom"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)">
+      ⬅ Prev
+    </button>
+ 
+    <span class="page-indicator">Page {{ currentPage }}</span>
+ 
+    <button class="btn btn-animated btn-secondary-custom"
+            [disabled]="(currentPage * itemsPerPage) >= cargList.length"
+            (click)="goToPage(currentPage + 1)">
+      Next ➡
+    </button>
+  </div>
+</div>
+ 
+<div class="modal fade" id="driverModal" tabindex="-1" aria-labelledby="driverModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="driverModalLabel">👨‍✈️ Assign Driver</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label-modal">Select Driver</label>
+        <select [(ngModel)]="driverId" class="form-control" >
+          <option value="">Choose Driver</option>
+          <option *ngFor="let driver of driverList" [value]="driver.id">{{ driver.name }}</option>
+          
+        </select>
+        <div *ngIf="showMessage" class="alert alert-success mt-3">{{ responseMessage }}</div>
+        <div *ngIf="showError" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-animated btn-secondary-custom" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-animated btn-primary-custom" (click)="assignDriver()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">✏️ Edit Cargo</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="editForm">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label-modal">Content</label>
+              <input type="text" class="form-control" formControlName="content" placeholder="Content">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label-modal">Size</label>
+              <input type="text" class="form-control" formControlName="size" placeholder="Size">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label-modal">Status</label>
+              <select class="form-control" formControlName="status">
+                <option value="">Choose Status</option>
+                <option value="Order Pending">Pending</option>
+                <option value="Order Assigned">Assigned</option>
+                <option value="Order In-transit">In-transit</option>
+                <option value="Order Delivered">Delivered</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label-modal">Address</label>
+              <input type="text" class="form-control" formControlName="address" placeholder="Pickup/Delivery address">
+            </div>
+            
+          </div>
+        </form>
+
+        <div *ngIf="editError" class="alert alert-danger mt-3">{{ editError }}</div>
+        <div *ngIf="editSuccess" class="alert alert-success mt-3">{{ editSuccess }}</div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          id="editModalCloseBtn"
+          type="button"
+          class="btn btn-animated btn-secondary-custom"
+          data-bs-dismiss="modal">Cancel</button>
+
+        <button
+          type="button"
+          class="btn btn-animated btn-primary-custom"
+          (click)="updateCargo()"
+          [disabled]="editLoading || editForm.invalid">
+          <span *ngIf="!editLoading">Save Changes</span>
+          <span *ngIf="editLoading">Saving…</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content modal-danger">
+       <div class="modal-header">
+         <h5 class="modal-title" id="deleteModalLabel">🗑️ Delete Cargo</h5>
+         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+       </div>
+       <div class="modal-body">
+         <p class="mb-2">
+           Are you sure you want to delete A.W.B <strong>#{{ orderToDelete?.id }}</strong>?
+         </p>
+         <p class="text-muted">This action cannot be undone.</p>
+ 
+         <div *ngIf="deleteError" class="alert alert-danger mt-3">{{ deleteError }}</div>
+         <div *ngIf="deleteSuccess" class="alert alert-success mt-3">{{ deleteSuccess }}</div>
+       </div>
+       <div class="modal-footer">
+         <button
+           id="deleteModalCloseBtn"
+           type="button"
+           class="btn btn-animated btn-secondary-custom"
+           data-bs-dismiss="modal">Cancel</button>
+ 
+         <button
+           type="button"
+           class="btn btn-animated btn-danger-custom"
+           (click)="deleteCargo()"
+           [disabled]="deleteLoading">
+           <span *ngIf="!deleteLoading">Yes, Delete</span>
+           <span *ngIf="deleteLoading">Deleting…</span>
+         </button>
+       </div>
+     </div>
+   </div>
+ </div>
