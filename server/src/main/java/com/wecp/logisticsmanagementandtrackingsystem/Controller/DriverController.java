@@ -24,9 +24,9 @@ public class DriverController {
     @GetMapping("/api/driver/cargo")
     @PreAuthorize("hasAuthority('DRIVER')")
     public ResponseEntity<List<Cargo>> viewAssignedCargos(@RequestParam(required = false) Long driverId) {
-        if (driverId == null) {
-            return ResponseEntity.badRequest().build();
-        }
+        // if (driverId == null) {
+        //     return ResponseEntity.badRequest().build();
+        // }
         return new ResponseEntity<>(driverService.viewDriverCargos(driverId), HttpStatus.OK);
     }
 

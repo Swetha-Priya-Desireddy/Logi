@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wecp.logisticsmanagementandtrackingsystem.dto.CargoStatusResponse;
+import com.wecp.logisticsmanagementandtrackingsystem.entity.Cargo;
+import com.wecp.logisticsmanagementandtrackingsystem.service.CargoService;
 import com.wecp.logisticsmanagementandtrackingsystem.service.CustomerService;
 
 @RestController
@@ -19,6 +21,9 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    
+        @Autowired
+        private CargoService cargoService;
     @GetMapping("/cargo-status")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<CargoStatusResponse> viewCargoStatus(@RequestParam(required = false) Long cargoId) {
@@ -34,4 +39,13 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/cargo-details")
+        public ResponseEntity<Cargo> getCargoDetails(@RequestParam Long cargoId) {
+            Cargo cargo = cargoService.getCargoById(cargoId);
+            if (cargo != null) {
+                return ResponseEntity.ok(cargo);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        }
 }

@@ -38,16 +38,21 @@ export class AssginCargoComponent implements OnInit {
     if (this.userId) {
       this.getDriverIdByUserId(this.userId);
     }
- 
+    
     this.statusModel.newStatus = null;
     this.getAssginCargo();
-    this.getCargoById();
   }
  
   getDriverIdByUserId(userId: number): void {
     this.httpService.getDriverIdByUserId(userId).subscribe((id: number) => {
       this.driverId = id;
+      if(this.driverId){
       this.getAssginCargo();
+      this.getCargoById();
+      }
+      else{
+        console.error();
+      }
     });
   }
  
