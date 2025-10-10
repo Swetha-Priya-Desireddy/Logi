@@ -7,19 +7,18 @@ import java.util.List;
 
 @Entity
 public class Business {
-    // Primary Key Generation
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
 
-    // Association with Cargo
+    
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Cargo> cargos;
 
-    //Constructor
     public Business(String name, String email, List<Cargo> cargos) {
         this.name = name;
         this.email = email;
@@ -29,7 +28,7 @@ public class Business {
     public Business() {
     }
 
-    //Getters and Setters
+   
     public Long getId() {
         return id;
     }

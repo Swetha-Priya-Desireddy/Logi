@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   constructor(public router:Router, public httpService:HttpService, private formBuilder: FormBuilder, private authService:AuthService) 
     {
       this.itemForm = this.formBuilder.group({
-        //compelete this 
       username:['',Validators.required],
       password:['',Validators.required]
        

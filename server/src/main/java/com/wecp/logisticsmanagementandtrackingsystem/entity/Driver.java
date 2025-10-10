@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 public class Driver {
-    // Primary Key Genaration
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,23 +15,23 @@ public class Driver {
     private String name;
     private String email;
 
-    // Association with Cargo
+   
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Cargo> assignedCargos;
 
-    // Empty Constructor
+    
     public Driver() {
     }
 
-    // Parameterized Constructor
+  
     public Driver(String name, String email, List<Cargo> assignedCargos) {
         this.name = name;
         this.email = email;
         this.assignedCargos = assignedCargos;
     }
 
-    // Getters & Setters
+   
     public Long getId() {
         return id;
     }

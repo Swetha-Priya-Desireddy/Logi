@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class DriverService {
 
-    // Dependency Injections
+
     @Autowired
     private DriverRepository driverRepository;
 
@@ -29,12 +29,12 @@ public class DriverService {
     private UserRepository userRepository;
 
     public Driver createDriver(Driver driver) {
-        // adding driver to database and return driver
+        
         return driverRepository.save(driver);
     }
 
     public List<Driver> getAllDrivers() {
-        // returning list of drivers from database
+       
         return driverRepository.findAll();
 
     }
@@ -43,7 +43,7 @@ public class DriverService {
 
 
    public boolean updateCargoStatus(Long cargoId, String newStatus) {
-        // update cargo status in database
+      
         Cargo cargo = cargoRepository.findById(cargoId).orElseThrow(() -> new EntityNotFoundException(cargoId + " not found!!"));
 
         cargo.setStatus(newStatus);
@@ -53,7 +53,7 @@ public class DriverService {
     }
 
    public List<Cargo> viewDriverCargos(Long driverId) throws CargosNotFoundException, DriverNotFoundException {
-       // Directly fetch driver by ID
+      
        Driver driver = driverRepository.findById(driverId)
                .orElseThrow(() -> new DriverNotFoundException("No driver found with ID: " + driverId));
    

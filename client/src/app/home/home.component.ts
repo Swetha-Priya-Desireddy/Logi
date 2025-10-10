@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     currentSlideIndex: number = 0;
     private slideInterval: any;
 
-    // Statistics counters
+   
     customersCount: number = 0;
     cargosCount: number = 0;
     countriesCount: number = 0;
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        // Set up Intersection Observer for statistics animation
+        
         this.observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     startAutoSlide(): void {
         this.slideInterval = setInterval(() => {
             this.nextSlide();
-        }, 5000); // Change slide every 5 seconds
+        }, 5000); 
     }
 
     stopAutoSlide(): void {
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
     }
 
-    // Animate statistics counters from 0 to target value
+   
     private animateStatistics(): void {
         this.animateCounter('customers', 15000, 2000, (val) => this.customersCount = Math.floor(val));
         this.animateCounter('cargos', 50000, 2000, (val) => this.cargosCount = Math.floor(val));

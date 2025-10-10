@@ -68,13 +68,12 @@ export class AddcargoComponent implements OnInit {
  
    this.httpService.deleteCargo(id).subscribe({
      next: (resp: any) => {
-       // Remove from local list
+       
        this.removeCargoFromLists(id);
- 
-       // Show success (use backend message if present)
+
        this.deleteSuccess = (resp?.message) ? resp.message : `Cargo #${id} deleted successfully.`;
  
-       // Close modal after a brief delay
+      
        setTimeout(() => {
          const closeBtn = document.getElementById('deleteModalCloseBtn');
          closeBtn?.click();
@@ -91,16 +90,16 @@ export class AddcargoComponent implements OnInit {
    });
  }
  private removeCargoFromLists(id: number) {
-   // Update full list
+ 
    this.cargList = this.cargList.filter((c: any) => c.id !== id);
  
-   // If current page is out of range after deletion, adjust it
+  
    const totalPages = Math.max(1, Math.ceil(this.cargList.length / this.itemsPerPage));
    if (this.currentPage > totalPages) {
      this.currentPage = totalPages;
    }
  
-   // Recompute visible slice
+  
    this.paginateCargo();
  }
 getDrivers() {
@@ -183,9 +182,9 @@ onSubmit() {
 }
 addDriver(value: any) {
   this.assignModel.cargoId = value.id;
-  this.driverId = null; // ✅ Reset driver selection
-  this.showMessage = false; // Optional: reset success message
-  this.showError = false;   // Optional: reset error message
+  this.driverId = null; 
+  this.showMessage = false; 
+  this.showError = false;   
 }
  
  
@@ -199,7 +198,7 @@ assignDriver() {
       this.showMessage = true;
       console.log("hello" + JSON.stringify(data));
       this.responseMessage = data.message;
-      // this.router.navigateByUrl('/addcargo');
+      
     }, error => {
      
       this.showError = true;
@@ -209,7 +208,7 @@ assignDriver() {
   }
 }
 
-// --- Edit state ---
+
  editForm:FormGroup = this.formBuilder.group({  
   content: ['', [Validators.required]],  
   size:   ['', [Validators.required]],  
@@ -221,7 +220,7 @@ editLoading: boolean = false;
 editError: string = '';
 editSuccess: string = '';
 
-// Called when the ✏️ Edit button is clicked
+
 setOrderToEdit(order: any) {
   this.orderToEdit = order;
   this.editError = '';
@@ -230,11 +229,11 @@ setOrderToEdit(order: any) {
     content: order.content ?? '',
     size: order.size ?? '',
     status: order.status ?? '',
-    address: order.address ?? '' // ✅ NEW
+    address: order.address ?? '' 
   });
 }
 
-// Save changes to backend
+
 updateCargo() {
   if (!this.orderToEdit?.id || this.editForm.invalid) {
     this.editForm.markAllAsTouched();
@@ -269,12 +268,10 @@ updateCargo() {
   });
 }
 
-// Replace the item in cargList/cargoToShow and re-paginate if needed
+
 private applyUpdateInLists(id: number, updatedCargo: any) {
-  // Update in full list
   this.cargList = this.cargList.map((c: any) => c.id === id ? { ...c, ...updatedCargo } : c);
 
-  // Recompute visible slice
   this.paginateCargo();
 }
  

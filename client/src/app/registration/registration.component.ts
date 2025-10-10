@@ -193,7 +193,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
       return;
     }
  
-    // 👉 Validate image captcha before registration
+    
     const typed = (this.itemForm.value.captchaImageInput || '').trim().toUpperCase();
     if (typed !== this.captchaText.toUpperCase()) {
       this.showError = true;
@@ -207,13 +207,13 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     this.showMessage = false;
     this.responseMessage = null;
  
-    // Proceed to backend
+    
     this.httpService.registerUser({
       username: this.itemForm.value.username,
       email: this.itemForm.value.email,
       password: this.itemForm.value.password,
       role: this.itemForm.value.role
-      // Note: not sending captcha in payload; you can add it if you implement server-side verification
+      
     }).subscribe({
       next: () => {
         this.showMessage = true;
@@ -237,7 +237,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     });
   }
  
-  /** Getter to avoid strict template typing issues when reading error keys */
+  
   get passwordErrors(): any | null {
     return this.itemForm.get('password')?.errors || null;
   }

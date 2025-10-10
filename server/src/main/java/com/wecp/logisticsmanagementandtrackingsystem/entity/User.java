@@ -6,17 +6,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
-    // Primary Key Generation
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
-    private String role; // Role can be 'BUSINESS', 'DRIVER', 'CUSTOMER'
+    private String role; 
 
     private String email;
 
-    // Getters & Setters
+    
     public Long getId() {
         return id;
     }

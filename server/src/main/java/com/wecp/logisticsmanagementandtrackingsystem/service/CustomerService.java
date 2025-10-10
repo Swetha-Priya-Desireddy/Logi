@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
-    // Dependency Injections
+  
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -20,13 +20,13 @@ public class CustomerService {
     private CargoRepository cargoRepository;
 
     public Customer createCustomer(Customer customer) {
-        // save the customer to the database
+        
         return customerRepository.save(customer);
 
     }
 
     public CargoStatusResponse viewCargoStatus(Long cargoId) throws CargoNotExistsException{
-        // Find the cargo by its id and return the status
+       
 
         Cargo cargo = (cargoRepository.findById(cargoId)).orElse(null);
         if (cargo != null) {

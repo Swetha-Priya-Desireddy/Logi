@@ -102,7 +102,7 @@ public class BusinessController {
         if (deleted) {
             return ResponseEntity.ok("{\"message\": \"Cargo deleted successfully.\"}");
         } else {
-            // Either not found or blocked by business rule
+            
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"message\": \"Cannot delete cargo. Either not found or status does not allow deletion.\"}");
         }

@@ -15,9 +15,9 @@
          <h4 class="m-0 pe-lg-5 d-none d-lg-block"><i class="fa fa-headphones text-primary me-3"></i>+012 345 6789</h4>
      </div>
  </nav>
- <!-- Navbar End -->
  
- <!-- Hero Start - SLIDER INTEGRATED HERE -->
+ 
+ 
  <div class="container-fluid p-0 mb-5">
      <div class="position-relative">
          <div class="hero-slider-container">
@@ -37,7 +37,7 @@
              </div>
          </div>
  
-         <!-- Slider Controls -->
+        
          <button class="carousel-control-prev" type="button" (click)="prevSlide()">
              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
              <span class="visually-hidden">Previous</span>
@@ -47,15 +47,13 @@
              <span class="visually-hidden">Next</span>
          </button>
  
-         <!-- Slider Indicators -->
+         
          <div class="carousel-indicators">
              <button type="button" *ngFor="let slide of slides; let i = index" [class.active]="i === currentSlideIndex" (click)="goToSlide(i)"></button>
          </div>
      </div>
  </div>
- <!-- Hero End -->
- 
- <!-- Statistics Counter Start -->
+
  <div class="statistics-section" #statsSection>
      <div class="stats-background"></div>
      <div class="container">
@@ -103,9 +101,7 @@
          </div>
      </div>
  </div>
- <!-- Statistics Counter End -->
- 
- <!-- About Start -->
+
  <div class="container-fluid overflow-hidden py-5 px-lg-0 dark-section">
      <div class="container about py-5 px-lg-0">
          <div class="row g-5 mx-lg-0">
@@ -134,9 +130,7 @@
          </div>
      </div>
  </div>
- <!-- About End -->
- 
- <!-- Service Start with Flip Cards -->
+
  <div class="container-xxl py-5 dark-section">
      <div class="container py-5">
          <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -291,9 +285,7 @@
          </div>
      </div>
  </div>
- <!-- Service End -->
- 
- <!-- Feature Start -->
+
  <div class="container-fluid overflow-hidden py-5 px-lg-0 dark-section">
      <div class="container feature py-5 px-lg-0">
          <div class="row g-5 mx-lg-0">
@@ -330,9 +322,7 @@
          </div>
      </div>
  </div>
- <!-- Feature End -->
- 
- <!-- Team Start with Flip Cards -->
+
  <div class="container-xxl py-5 dark-section">
      <div class="container py-5">
          <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -483,9 +473,7 @@
          </div>
      </div>
  </div>
- <!-- Team End -->
- 
- <!-- Customer Feedback Start -->
+
  <div class="container-xxl py-5 dark-section">
      <div class="container py-5">
          <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -562,9 +550,7 @@
          </div>
      </div>
  </div>
- <!-- Customer Feedback End -->
- 
- <!-- Footer Start -->
+
  <footer class="footer-section">
      <div class="container py-5">
          <div class="row g-5">
@@ -634,7 +620,5 @@
          </div>
      </div>
  </footer>
- <!-- Footer End -->
- 
- <!-- Back to Top -->
+
  <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"><i class="bi bi-arrow-up"></i></a>

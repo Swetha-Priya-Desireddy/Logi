@@ -14,14 +14,14 @@ import java.util.ArrayList;
 @Service
 public class UserService implements UserDetailsService {
 
-    // Dependency Injections
+    
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // If username already present in DB then it will return null or Else save in DB
+    
     public User registerUser(User user) {
         User user1 = userRepository.findByUsername(user.getUsername());
         if (user1 == null) {
@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    // Getting User by taking username
+  
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }

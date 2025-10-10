@@ -36,13 +36,13 @@ public class SecurityConfig {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Configures the UserDetailsService bean.
+   
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserService();
     }
 
-    // Configures the security filter chain for custom role-based access for URIs.
+   
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .build();
     }
 
-    // Configures the authentication provider for setting user details and hashing passwords.
+    
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -68,13 +68,13 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
-    // Configures the AuthenticationManager.
+  
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    // Custom request matcher for matching URIs.
+    
     private static class CustomRequestMatcher implements RequestMatcher {
         private String[] patterns;
 
